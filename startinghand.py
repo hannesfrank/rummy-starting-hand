@@ -77,16 +77,19 @@ def random_hand(num_cards, deck):
 def calculate_probability(num_cards, deck, colors, values):
     num_hands = 0
     num_starting_hands = 0
-    
-    while True:
-        hand = random_hand(num_cards, deck)
-        
-        num_hands += 1
-        if has_starting_set(hand, colors, values):
-            num_starting_hands += 1
-        
-        if num_hands % 10000 == 0:
-            print(f"{num_starting_hands/num_hands}")
+
+    try:
+        while True:
+            hand = random_hand(num_cards, deck)
+            
+            num_hands += 1
+            if has_starting_set(hand, colors, values):
+                num_starting_hands += 1
+            
+            if num_hands % 10000 == 0:
+                print(f"{num_starting_hands/num_hands}")
+    except KeyboardInterrupt as e:
+        return
 
 
 def format_cards(cards):
@@ -100,6 +103,6 @@ def print_cards(cards):
 colors = 'RGBY'
 values = list(range(1, 14))
 deck = list(itertools.product(colors, values))
-deck = deck + deck
+deck = deck
 calculate_probability(14, deck, colors, values)
 # 14: 29.4 %
