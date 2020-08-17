@@ -103,6 +103,6 @@ def print_cards(cards):
 colors = 'RGBY'
 values = list(range(1, 14))
 deck = list(itertools.product(colors, values))
-deck = deck
+deck = deck + deck
 calculate_probability(14, deck, colors, values)
 # 14: 29.4 %
