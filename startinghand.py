@@ -16,7 +16,7 @@ import itertools
 import random
 
 
-COLORS = 'RGBY'
+COLORS = "RGBY"
 VALUES = list(range(1, 14))
 DECK = list(itertools.product(COLORS, VALUES))
 DECK = DECK + DECK
@@ -27,8 +27,11 @@ def best_hand_value(hand, colors, values):
     Count how many points the best hand has.
     """
     return max(
-        (sum_cards(matching_set) for matching_set in generate_sets(hand, colors, values)),
-        default=0
+        (
+            sum_cards(matching_set)
+            for matching_set in generate_sets(hand, colors, values)
+        ),
+        default=0,
     )
 
 
@@ -47,7 +50,7 @@ def generate_sets(hand, colors, values):
     for g in valgroups.values():
         if len(g) >= 3:
             yield g
-    
+
     # sequences
     for g in map(sorted, colgroups.values()):
         if len(g) < 3:
@@ -60,16 +63,16 @@ def generate_sets(hand, colors, values):
             next_expected = last + 1
             if v == next_expected:
                 last = v
-            else: # v != next_expected:
+            else:  # v != next_expected:
                 num_elems = last - first + 1
                 if num_elems >= 3:
-                    yield {(c, v) for v in range(first, last+1)}
+                    yield {(c, v) for v in range(first, last + 1)}
                 first = v
                 last = v
 
         num_elems = last - first + 1
         if num_elems >= 3:
-            yield {(c, v) for v in range(first, last+1)}
+            yield {(c, v) for v in range(first, last + 1)}
 
 
 def has_starting_set(cards, colors, values):
@@ -85,11 +88,11 @@ def sample_probability(num_cards, deck, colors, values, num_samples=100000):
 
     for i in range(num_samples):
         hand = random_hand(num_cards, deck)
-        
+
         if has_starting_set(hand, colors, values):
             num_starting_hands += 1
 
-    return num_starting_hands/num_samples
+    return num_starting_hands / num_samples
 
 
 def calculate_probability(num_cards, deck, colors, values):
@@ -99,11 +102,11 @@ def calculate_probability(num_cards, deck, colors, values):
     try:
         while True:
             hand = random_hand(num_cards, deck)
-            
+
             num_hands += 1
             if has_starting_set(hand, colors, values):
                 num_starting_hands += 1
-            
+
             if num_hands % 10000 == 0:
                 print(f"{num_starting_hands/num_hands}")
     except KeyboardInterrupt as e:
