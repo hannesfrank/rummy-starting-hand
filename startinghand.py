@@ -122,4 +122,8 @@ def print_cards(cards):
 
 
 if __name__ == "__main__":
-    calculate_probability(14, deck=DECK, colors=COLORS, values=VALUES)
+    # calculate_probability(14, deck=DECK, colors=COLORS, values=VALUES)
+
+    print("# cards  probability")
+    for i in range(21):
+        print(f'{i:^7}  {sample_probability(i, DECK, COLORS, VALUES, num_samples=50000) * 100: 2.1f} %')
