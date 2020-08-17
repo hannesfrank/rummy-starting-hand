@@ -16,6 +16,12 @@ import itertools
 import random
 
 
+COLORS = 'RGBY'
+VALUES = list(range(1, 14))
+DECK = list(itertools.product(COLORS, VALUES))
+DECK = DECK + DECK
+
+
 def best_hand_value(hand, colors, values):
     """
     Count how many points the best hand has.
@@ -74,6 +80,18 @@ def random_hand(num_cards, deck):
     return random.sample(deck, num_cards)
 
 
+def sample_probability(num_cards, deck, colors, values, num_samples=100000):
+    num_starting_hands = 0
+
+    for i in range(num_samples):
+        hand = random_hand(num_cards, deck)
+        
+        if has_starting_set(hand, colors, values):
+            num_starting_hands += 1
+
+    return num_starting_hands/num_samples
+
+
 def calculate_probability(num_cards, deck, colors, values):
     num_hands = 0
     num_starting_hands = 0
@@ -100,9 +118,5 @@ def print_cards(cards):
     print(format_cards(cards))
 
 
-colors = 'RGBY'
-values = list(range(1, 14))
-deck = list(itertools.product(colors, values))
-deck = deck + deck
-calculate_probability(14, deck, colors, values)
-# 14: 29.4 %
+if __name__ == "__main__":
+    calculate_probability(14, deck=DECK, colors=COLORS, values=VALUES)
